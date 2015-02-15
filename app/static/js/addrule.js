@@ -1,5 +1,5 @@
 /**
- * TODO: Datepicker
+ * TODO: Datepicker?
  */
 
 var RuleBox = React.createClass({
@@ -273,7 +273,3 @@ React.render(
     />,
   document.getElementById('content')
 );
-
-$(document).ready(function(){
-  $('.date').datepicker({dateFormat: 'yy-mm-dd'});
-});

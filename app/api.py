@@ -85,16 +85,12 @@ def build_calendar(year, month):
     rulesQueryData = ()
     rulesData = common.db_fetchAll(rulesQuery, rulesQueryData)
 
-    weeks = calendar.Calendar(calendar.SUNDAY).monthdayscalendar(year, month)
-
-
-    return str(json.dumps({'rulesData':rulesData}))
     # build out rules for time period between last checkin and last day of given month
     rulesByDay = {}
     for rule in rulesData:
         # for rules that have a recurrence rule
         if (rule['interval']):
-            currentDay = checkin['date']
+            currentDay = rule['start']
             while currentDay < lastDayOfMonth:
                 # if this date isn't in our rulesByDay dict, create the entry with empty list
                 if currentDay.isoformat() not in rulesByDay:
@@ -105,13 +101,12 @@ def build_calendar(year, month):
                 #increment to next day
                 currentDay += relativedelta(**{rule['unit']:rule['interval']})
 
-    return(json.dumps({'rulesByDay':rulesByDay}))
-    firstImportantDay = max(date(year = year, month = month, day = 1), date.today())
+    firstOfMonth = date(year = year, month = month, day = 1)
 
     #calculate starting amount as of first important day for this calendr
     currentDay = checkin['date']
     originFunds = checkin['amount']
-    while currentDay < firstImportantDay:
+    while currentDay < firstOfMonth:
         if currentDay.isoformat() in rulesByDay:
             for rule in rulesByDay[currentDay.isoformat()]:
                 originFunds += rule['amount']
@@ -119,16 +114,18 @@ def build_calendar(year, month):
 
     rulesCalendar = {}
     runningTotal = originFunds
+    weeks = calendar.Calendar(calendar.SUNDAY).monthdayscalendar(year, month)
     for week in weeks:
         for day in week:
-            d = date(year=year, month=month, day=day)
-            if d >= firstImportantDay:
-                rulesCalendar[d.isoformat()] = {'rules':[], 'total':runningTotal}
-                if d.isoformat() in rulesByDay:
-                    for rule in rulesByDay[d.isoformat()]:
-                        rulesCalendar[d.isoformat()]['rules'].append(rule) 
-                        runningTotal += rule['amount']
-                        rulesCalendar[d.isoformat()]['total'] = runningTotal
+            if day > 0 :
+                d = date(year=year, month=month, day=day)
+                if d >= firstOfMonth:
+                    rulesCalendar[d.isoformat()] = {'rules':[], 'total':runningTotal}
+                    if d.isoformat() in rulesByDay:
+                        for rule in rulesByDay[d.isoformat()]:
+                            rulesCalendar[d.isoformat()]['rules'].append(rule) 
+                            runningTotal += rule['amount']
+                            rulesCalendar[d.isoformat()]['total'] = runningTotal
 
-    returnObject = {'originFunds':originFunds,'rulesByDay':rulesByDay,'rulesCalendar':rulesCalendar}
-    return str(json.dumps(returnObject))
+
+    return {'year':year, 'month':month, 'weeks': weeks, 'rulesCalendar':rulesCalendar}

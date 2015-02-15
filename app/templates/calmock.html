@@ -1,0 +1,237 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" href=" {{ url_for('static', filename='css/calendar.css') }} "></link>
+{% endblock %}
+
+{% block body %}
+<table>
+    <thead>
+        <tr class="monthname">
+            <th colspan="7">
+                April 2014
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="weekdaynames">
+            <td>
+                Sunday
+            </td>
+            <td>
+                Monday
+            </td>
+            <td>
+                Tuesday
+            </td>
+            <td>
+                Wednesday
+            </td>
+            <td>
+                Thursday
+            </td>
+            <td>
+                Friday
+            </td>
+            <td>
+                Saturday
+            </td>
+        </tr>
+        <tr class="week">
+            <td class="notaday"></td>
+            <td class="notaday"></td>
+            <td class="notaday"></td>
+            <td class="day">
+                <span class="date">1</span>
+                <ul class="rules">
+                    <li class="debit">-975 Rent</li>
+                    <li class="debit">-140 Todd Student Loan</li>
+                    <li class="debit">-150 Geico</li>
+                    <li class="debit">-150 Todd Tuition Debt</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">2</span>
+                <ul class="rules">
+                    <li class="credit">+595 Brendan Paycheck</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">3</span>
+                <ul class="rules">
+                    <li class="debit">-130 Cell Phones</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">4</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+        </tr>
+        <tr class="week">
+            <td class="day">
+                <span class="date">5</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">6</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">7</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">8</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">9</span>
+                <ul class="rules">
+                    <li class="credit">+595 Brendan Paycheck</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">10</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">11</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+        </tr>
+        <tr class="week">
+            <td class="day">
+                <span class="date">12</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">13</span>
+                <ul class="rules"></ul>
+            </td>
+            <td class="day">
+                <span class="date">14</span>
+                <ul class="rules">
+                    <li class="debit">-75 Brendan Student Loan</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">15</span>
+                <ul class="rules">
+                    <li class="debit">-8 Google Play Brendan</li>
+                    <li class="debit">-8 Google Play Todd</li>
+                    <li class="debit">-8 Betterment</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">16</span>
+                <ul class="rules">
+                    <li class="credit">+595 Brendan Paycheck</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">17</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">18</span>
+                <ul class="rules">
+                    <li class="credit">+1100 Todd Paycheck</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+        </tr>
+        <tr class="week">
+            <td class="day">
+                <span class="date">19</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">20</span>
+                <ul class="rules">
+                    <li class="debit">-8 Netflix</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">21</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">22</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">23</span>
+                <ul class="rules">
+                    <li class="credit">+595 Brendan Paycheck</li>
+                    <li class="debit">-100 Internet</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">24</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">25</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+        </tr>
+        <tr class="week">
+            <td class="day">
+                <span class="date">26</span>
+                <ul class="rules">
+                    <li class="debit">-285 Car Payment</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">27</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">28</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">29</span>
+                <ul class="rules"></ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="day">
+                <span class="date">30</span>
+                <ul class="rules">
+                    <li class="credit">+595 Brendan Paycheck</li>
+                </ul>
+                <span class="total">Total: $1111</span>
+            </td>
+            <td class="notaday"></td>
+            <td class="notaday"></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
+

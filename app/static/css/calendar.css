@@ -1,0 +1,56 @@
+table {
+	border-collapse: collapse;
+	width:85%;
+	margin: auto;
+	min-width: 800px;
+}
+tr.weekdaynames {
+	text-align: center;
+	font-size:24px;
+	line-height: 24px;
+}
+td {
+	vertical-align: top;
+	border:2px solid gray;
+}
+span.date {
+	font-weight: bold;
+	border-radius: 5px;
+	font-size:18px;
+	line-height:18px;
+}
+ul {
+	/*border: 1px solid black;*/
+	list-style: none inside;
+	padding:0;
+	margin:0;
+}
+td.day {
+	height: 125px;
+	width: 14%;
+}
+.monthname {
+	font-size: 2em;
+	line-height: 200%;
+}
+.credit {
+	color: black;
+}
+.debit {
+	color:red;
+}
+.notaday {
+	background-color:#BBB;
+}
+
+ul.rules {
+	border-top: 1px dotted #AAA;
+	border-bottom: 1px dashed #AAA;
+}
+span.total {
+	font-style: italic;
+	font-size: 14px;
+	line-height: 14px;
+	float: right;
+	margin: 0 3px 0 0;
+}

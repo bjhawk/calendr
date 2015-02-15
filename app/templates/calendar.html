@@ -1,9 +1,17 @@
 {% extends "layout.html" %}
+
 {% block head %}
-<script type="text/javascript" src="{{ url_for('static', filename='htraf/htraf.js') }}" data-htsql-version="2" data-htsql-prefix="http://107.170.57.59:5000"></script>
+<script src="http://fb.me/react-0.12.2.js"></script>
+<script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/manage.css') }}">
 {% endblock %}
 
 {% block body %}
-<table class="htraf" data-htsql="/users"></table>
+<div id="content"></div>
+<script type="text/javascript">
+	var data = {{ rulesCalendar|tojson }};
+</script>
+<script type="text/jsx" src="{{  url_for('static', filename='js/calendr.js')  }}"></script>
 {% endblock %}
 

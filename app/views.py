@@ -17,9 +17,11 @@ def calendr(year = None, month = None):
         dt = datetime.now()
         year = dt.year
         month = dt.month
-    return api.build_calendar(year, month)
+    else:
+        year = int(year)
+        month = int(month)
     # api forms JSON of calendar data, display with REACT
-    return render_template('calendar.html', year = year, month = month)
+    return render_template('calendar.html', rulesCalendar = api.build_calendar(year, month))
 
 @app.route('/manage')
 def manage(action=None):
@@ -47,3 +49,7 @@ def dbtest():
 @app.route("/test")
 def htraftest():
     return render_template("htraftest.html")
+
+@app.route("/calmock")
+def calmock():
+    return render_template("calmock.html")
