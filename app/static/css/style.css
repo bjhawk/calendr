@@ -1,0 +1,18 @@
+body {
+    font: normal 12px/100% 'Oxygen', sans-serif;
+    background: #fff;
+    overflow: hidden;
+    width: 90%;
+    margin: auto;
+}
+
+h1 {
+    font: normal 48px/100% 'Lobster', cursive;
+}
+
+h2 {
+    font: normal 32px/100%;
+}
+h2 {
+    font: normal 24px/80%;
+}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block head %}
+    <script src="http://fb.me/react-0.12.2.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/manage.css') }}">
+{% endblock %}
+
+{% block body %}
+<div id="content"></div>
+<script type="text/jsx" src="{{ url_for('static', filename='js/addrule.js') }}"></script>
+{% endblock %}
+

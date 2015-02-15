@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block head %}
+<script type="text/javascript" src="{{ url_for('static', filename='htraf/htraf.js') }}" data-htsql-version="2" data-htsql-prefix="http://107.170.57.59:5000"></script>
+{% endblock %}
+
+{% block body %}
+<table class="htraf" data-htsql="/users"></table>
+{% endblock %}
+
