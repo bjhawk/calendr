@@ -11,6 +11,7 @@ def index():
     return "Hallo Werld!"
 
 @app.route('/calendar')
+@app.route('/calendar/')
 @app.route('/calendar/<year>/<month>')
 def calendr(year = None, month = None):
     if not (year and month):
