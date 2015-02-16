@@ -1,8 +1,0 @@
-setup.py
-/var/www/calendr/run.py
-calendr.egg-info/PKG-INFO
-calendr.egg-info/SOURCES.txt
-calendr.egg-info/dependency_links.txt
-calendr.egg-info/not-zip-safe
-calendr.egg-info/pbr.json
-calendr.egg-info/top_level.txt
