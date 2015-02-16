@@ -7,9 +7,6 @@ import api
 @app.route('/')
 @app.route('/index')
 @app.route('/index.html')
-def index():
-    return "Hallo Werld!"
-
 @app.route('/calendar')
 @app.route('/calendar/')
 @app.route('/calendar/<year>/<month>')

@@ -12,8 +12,8 @@ if __name__ == '__main__':
     
     # Flask Dev Server
     if app.debug:
-        app.run(host='0.0.0.0', port=5001)
+        app.run(host='0.0.0.0', port=80)
     else:
         # Gevent Server
-        http_server = WSGIServer(('', 5001), app)
+        http_server = WSGIServer(('', 80), app)
         http_server.serve_forever()

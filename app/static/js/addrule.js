@@ -268,7 +268,7 @@ var CategorySelect = React.createClass({
 React.render(
   <RuleBox
     ruleUrl="http://107.170.57.59:5000/rules%7Bid,name,amount,category.name%20:as%20category,category.type,start,interval,unit,note%7D/:json"
-    apiUrl="http://107.170.57.59:5001/api/"
+    apiUrl="http://www.triskeliondevelopment.com/api/"
     pollInterval={30000}
     />,
   document.getElementById('content')

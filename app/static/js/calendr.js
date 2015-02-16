@@ -34,7 +34,7 @@ var Calendr = React.createClass({
 		}
 
 		// date math to get links to last and next months
-		var dateUrl = 'http://107.170.57.59:5001/calendar/';
+		var dateUrl = 'http://www.triskeliondevelopment.com/calendar/';
 		var lastMonth = new Date(year, month-2, 1);
 		console.log(lastMonth.toISOString());
 		console.log(lastMonth.getMonth());
