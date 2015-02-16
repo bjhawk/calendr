@@ -1,10 +1,14 @@
-from flask import request
-import simplejson as json
-from datetime import datetime, date, timedelta
+###
+# API Methods - Methods to interact with Calendr-specific functionality
+###
+from datetime import date
 from dateutil.relativedelta import relativedelta
 import calendar
 import common
 
+##
+#API Method - add a rule to the database
+##
 def add_rule(postData):
     if not postData:
         return False
@@ -37,6 +41,10 @@ def add_rule(postData):
     data = (postData['user'], postData['name'], postData['amount'], postData['category'], postData['start'], postData['interval'], postData['unit'], postData['note'])
     return common.db_mutate(query, data) or False
 
+##
+#API Method - remove a rule from database
+#TODO: soft delete?
+##
 def delete_rule(postData):
     if not postData['ruleId']:
         return False
@@ -50,10 +58,19 @@ def delete_rule(postData):
 
     return common.db_mutate(query, (postData['ruleId'])) or False
 
-# builds calendar object
+##
+#API Method - builds calendar data for given year/month
+##
 def build_calendar(year, month):
     lastDayOfMonth = date(year, month, calendar.monthrange(year, month)[1])
+    firstOfMonth = date(year = year, month = month, day = 1)
+    weeks = calendar.Calendar(calendar.SUNDAY).monthdayscalendar(year, month)
 
+    ##
+    #TODO: implement multiple checkin dates, get the last checkin date before first
+    #of given month/year
+    #TODO: implement multiple users, currently hardcoded to one.
+    ##
     checkinQuery = '''
         SELECT
             `amount`,
@@ -101,9 +118,9 @@ def build_calendar(year, month):
                 #increment to next day
                 currentDay += relativedelta(**{rule['unit']:rule['interval']})
 
-    firstOfMonth = date(year = year, month = month, day = 1)
-
-    #calculate starting amount as of first important day for this calendr
+    #calculate starting amount as of first day of month for this calendar
+    #iterates from last checkin date to the first of this month, iteratively applying all rules
+    #for each day to a running total.
     currentDay = checkin['date']
     originFunds = checkin['amount']
     while currentDay < firstOfMonth:
@@ -112,9 +129,12 @@ def build_calendar(year, month):
                 originFunds += rule['amount']
         currentDay += relativedelta(days=1)
 
+    ##
+    #Takes reccuring rules data, and builds upon it, creating the final object that is returned
+    #TODO: can this be merged with the loop that builds the rules to begin with?
+    ##
     rulesCalendar = {}
     runningTotal = originFunds
-    weeks = calendar.Calendar(calendar.SUNDAY).monthdayscalendar(year, month)
     for week in weeks:
         for day in week:
             if day > 0 :
@@ -126,6 +146,5 @@ def build_calendar(year, month):
                             rulesCalendar[d.isoformat()]['rules'].append(rule) 
                             runningTotal += rule['amount']
                             rulesCalendar[d.isoformat()]['total'] = runningTotal
-
 
     return {'year':year, 'month':month, 'weeks': weeks, 'rulesCalendar':rulesCalendar}

@@ -1,3 +1,6 @@
+##
+#DB configuration constants
+##
 DBHOST = 'localhost'
 DBNAME = 'calendar'
 DBUSER = 'calendar'

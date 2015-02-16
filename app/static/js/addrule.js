@@ -1,13 +1,20 @@
 /**
- * TODO: Datepicker?
+ * TODO: Find and implement REACT-complient datepicker
  */
 
+/**
+ * Outermost wrapper for page. Binds events for loading rules from server, maintaining state
+ * handling the submit/deletion of a rule, etc.
+ * Contains table and form
+ */
 var RuleBox = React.createClass({
+  // Loads rules from server, uses an HTSQL endpoint supplied by final render function
   loadRulesFromServer: function() {
     $.ajax({
       url: this.props.ruleUrl,
       dataType: 'text',
       success: function(data) {
+        // TODO: why does return json from HTSQL not properly parse?
         data = $.parseJSON(data);
         this.setState({data: data['rules']});
       }.bind(this),
@@ -17,12 +24,14 @@ var RuleBox = React.createClass({
     });
   },
   handleRuleSubmit: function(rule) {
+    //add method to api endpoint
     var submitUrl = this.props.apiUrl+'add_rule';
     $.ajax({
       url: submitUrl,
       type: 'POST',
       data: rule,
       success: function(data) {
+        // on success, refresh state to current rules from server
         this.loadRulesFromServer();
       }.bind(this),
       error: function(xhr, status, err) {
@@ -31,12 +40,15 @@ var RuleBox = React.createClass({
     });
   },
   handleRuleDelete: function(ruleId) {
+    //add method to api endpoint
     var deleteUrl = this.props.apiUrl+'delete_rule';
     $.ajax({
       url: deleteUrl,
       type: 'POST',
+      //turn data into object
       data: {ruleId: ruleId},
       success: function(data) {
+        // on success, refresh state to current rules from server
         this.loadRulesFromServer();
       }.bind(this),
       error: function(xhr, status, err) {
@@ -44,10 +56,12 @@ var RuleBox = React.createClass({
       }.bind(this)
     });
   },
+  // initial empty state
   getInitialState: function() {
     return {data: []};
   },
   componentDidMount: function() {
+    // First data load from server
     this.loadRulesFromServer();
     setInterval(this.loadRulesFromServer, this.props.pollInterval);
   },
@@ -63,14 +77,18 @@ var RuleBox = React.createClass({
   }
 });
 
+// The table that displays all current rules data
 var RuleTable = React.createClass({
   handleDelete: function(ruleId) {
+    // call supplied function (which is a function of parent)  to handle deleting a rule.
     this.props.onRuleDelete(ruleId);
   },
   render: function() {
+      //TODO: move styles to css, use class identifiers, image (red "X") as delete button
       var deleteStyle = {cursor: 'pointer'};
-      var self = this
       var rules = this.props.data.map(function(rule) {
+      // there is probably a more "canon" way of passing this method in that i'm missing.
+      var self = this
       return (
         <tr key={rule.id}>
             <td>
@@ -98,6 +116,7 @@ var RuleTable = React.createClass({
   }
 });
 
+// Probably unnecessary to use a react class for this, static table header row.
 var RuleHeader = React.createClass({
   render: function() {
     return (
@@ -113,12 +132,15 @@ var RuleHeader = React.createClass({
   }
 });
 
+//Form for submitting new rules.
 var RuleForm = React.createClass({
+  //Handle submitting new rule, get data, prevent page reload, pass data to parent function to interact with API
   handleSubmit: function(e) {
     e.preventDefault();
-    // TODO: validate amount is a number (strip all other chars), one decimal
     var name = this.refs.name.getDOMNode().value.trim();
+    //TODO: user is currently hardcoded into hidden field in form - should be populated from login/cookie
     var user = this.refs.user.getDOMNode().value.trim();
+    // TODO: validate amount is a number (strip all other chars), one decimal point, round to 2 decimals
     var amount = this.refs.amount.getDOMNode().value.trim();
     var category = this.refs.category.getDOMNode().value.trim();
     var start = this.refs.start.getDOMNode().value.trim();
@@ -136,9 +158,11 @@ var RuleForm = React.createClass({
       ruleObject.unit = null;
     }
 
+    // Pass data object to parent function
     this.props.onRuleSubmit(ruleObject);
     
     this.refs.name.getDOMNode().value = null;
+    // TODO: implement user, this will be populated into calling template
     // this.refs.user.getDOMNode().value = null;
     this.refs.amount.getDOMNode().value = null;
     this.refs.category.getDOMNode().value = 1;
@@ -149,7 +173,7 @@ var RuleForm = React.createClass({
     this.refs.note.getDOMNode().value = null;
   },
   render: function() {
-    /*TODO: use identifiers, move styling to CSS file.*/
+    /*TODO: use identifiers (classes), move styling to CSS file.*/
     var amountSpanStyle = {width: '5%', fontSize:'1.1em', paddingRight:'1%'};
     var amountInputStyle = {width: '95%'};
 
@@ -161,6 +185,7 @@ var RuleForm = React.createClass({
 
     var intervalSpanStyle = {width: '20%', fontSize:'1.1em', paddingRight:'1%'};
     var intervalInputStyle = {width: '20%'};
+    //return rendered form.
     return (
       <form className="ruleForm" onSubmit={this.handleSubmit}>
         <input type="hidden" value="1" ref="user" />
@@ -195,6 +220,7 @@ var RuleForm = React.createClass({
   }
 });
 
+// Builds selector for interval unit.
 //TODO: Bind interval and unit selectors to the state of repeat checkbox?
 // -> in that case, no need to submit checkbox, just look for interval/unit values in form data
 var UnitSelector = React.createClass({
@@ -210,9 +236,10 @@ var UnitSelector = React.createClass({
   }
 });
 
+// Builds selector with values from 1-90
 var IntervalSelector = React.createClass({
   render: function() {
-    // There has GOT to be a better way to populate this selector.
+    //TODO: There has GOT to be a better way to populate this selector.
     var options = [];
     for (var i=1; i <=90; i++) {
       options.push({val:i});
@@ -230,17 +257,20 @@ var IntervalSelector = React.createClass({
   }
 });
 
+// Builds category Selector with data from DB.
 var CategorySelect = React.createClass({
   getInitialState: function() {
       return {data: []}
   },
   loadCategories: function() {
-    this.props.url = "http://107.170.57.59:5000/categories/:json";
+    // should this url be passed in?
+    this.props.url = "http://107.170.57.59:5000/categories{id, name}/:json";
     $.ajax({
       url: this.props.url,
       dataType: 'text',
       success: function(data) {
         data = $.parseJSON(data);
+        //update state
         this.setState({data: data['categories']});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -249,6 +279,7 @@ var CategorySelect = React.createClass({
     });
   },
   componentDidMount: function() {
+    //load categories data on mount, should only need to happen once.
     this.loadCategories();
   },
   render: function() {
@@ -265,6 +296,8 @@ var CategorySelect = React.createClass({
   }
 });
 
+
+//Render page
 React.render(
   <RuleBox
     ruleUrl="http://107.170.57.59:5000/rules%7Bid,name,amount,category.name%20:as%20category,category.type,start,interval,unit,note%7D/:json"
