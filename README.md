@@ -7,7 +7,7 @@ This is just a proof of concept - there is no installation yet, nor is it proper
 
 ## Usage
 **/manage** - add and remove budget rules. TODO:edit rules  
-**/calendr** - View your rules on the calendar  
+**/calendar** - View your rules on the calendar  
 **/report** - View breakdown of all debits by category  
   
 ## History
