@@ -86,22 +86,22 @@ var RuleTable = React.createClass({
   render: function() {
       //TODO: move styles to css, use class identifiers, image (red "X") as delete button
       var deleteStyle = {cursor: 'pointer'};
+      // there is probably a more "canon" way of passing a method/self reference in that i'm missing....
+      var self = this;
       var rules = this.props.data.map(function(rule) {
-      // there is probably a more "canon" way of passing this method in that i'm missing.
-      var self = this
-      return (
-        <tr key={rule.id}>
-            <td>
-              <span style={deleteStyle} onClick={self.handleDelete.bind(self, rule.id)}>(delete)</span>
-              {rule.name}
-            </td>
-            <td className="{rule.type}">{rule.type == 'credit' ? '+' : '-'}{rule.amount.toFixed(2)}</td>
-            <td>{rule.category}</td>
-            <td>{rule.start}</td>
-            <td>{rule.interval > 0 ? rule.interval+' '+rule.unit : 'none'}</td>
-            <td>{rule.note}</td>
-        </tr>
-        );
+        return (
+          <tr key={rule.id}>
+              <td>
+                <span style={deleteStyle} onClick={self.handleDelete.bind(self, rule.id)}>(delete)</span>
+                {rule.name}
+              </td>
+              <td className="{rule.type}">{rule.type == 'credit' ? '+' : '-'}{rule.amount.toFixed(2)}</td>
+              <td>{rule.category}</td>
+              <td>{rule.start}</td>
+              <td>{rule.interval > 0 ? rule.interval+' '+rule.unit : 'none'}</td>
+              <td>{rule.note}</td>
+          </tr>
+          );
     });
     return (
       <table className="ruleTable">

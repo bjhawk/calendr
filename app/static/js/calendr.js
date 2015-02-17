@@ -25,6 +25,8 @@ var Calendr = React.createClass({
         // are there better keys to use?
         var weekIterator = 0;
         var dayIterator = 0;
+        // get a date object for today - used to determine some css rules
+        today = new Date();
         for (var w in weeks) {
             builtWeek = [];
             week = weeks[w];
@@ -32,15 +34,27 @@ var Calendr = React.createClass({
                 day = week[d];
                 if (day == 0) {
                     //make a "non-day"
-                    builtWeek.push(<CalendrNonDay  key={dayIterator}/>);
+                    builtWeek.push(<CalendrNonDay  key={dayIterator} />);
                 } else {
                     //make a day with rulescalendar['yyy-mm-dd']
-                    //a complicated looking but honestly much simpler way of getting just the date in ISO format
-                    date = new Date(year, month-1, day).toISOString().split('T')[0];
-                    builtWeek.push(<CalendrDay data={rulesCalendar[date]} date={day} key={dayIterator}/>);
+                    date = new Date(year, month-1, day);
+                    // compare date objects
+                    var isPast = (date < today ? true : false);
+                    // easiest way to compare just the date part of date objects
+                    var isToday = (date.toISOString().split('T')[0] == today.toISOString().split('T')[0] ? true : false);
+                    //push a new "day" object into current week
+                    builtWeek.push(
+                        <CalendrDay
+                            data={rulesCalendar[date.toISOString().split('T')[0]]}
+                            date={day}
+                            isPast={isPast}
+                            isToday={isToday}
+                            key={dayIterator} />
+                        );
                 }
                 dayIterator++;
             }
+            // push array of "days" onto array of "weeks", then iterate to next week.
             builtWeeks.push(<CalendrWeek data={builtWeek} key={weekIterator}/>);
             weekIterator++;
         }
@@ -124,8 +138,14 @@ CalendrNonDay = React.createClass({
 // total and rules list are put into appropriate places here.
 CalendrDay = React.createClass({
     render: function(){
+        var cs = React.addons.classSet;
+        var classes = cs({
+            'day': true,
+            'past': this.props.isPast,
+            'today': this.props.isToday
+        });
         return (
-            <td className="day">
+            <td className={classes} >
                 <span className="date">{this.props.date}</span>
                 <CalendrRulesList data={this.props.data['rules'] ? this.props.data['rules'] : []} />
                 <span className="total">{this.props.data['total']}</span>

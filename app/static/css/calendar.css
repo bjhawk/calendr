@@ -29,6 +29,13 @@ td.day {
 	height: 125px;
 	width: 14%;
 }
+
+td.past {
+	background-color: #E5E5E5;
+}
+td.today {
+	background-color: #FFC
+}
 .monthname {
 	font-size: 2em;
 	line-height: 200%;
